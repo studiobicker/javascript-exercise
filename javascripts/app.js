@@ -155,7 +155,7 @@ function moveBackward(rover){
 }
 
 function moveAround(commandList) {
-
+  clearTravelLog(rover);
   var isValid = isValidCommandList(commandList);
 
   if (isValid) {
@@ -177,6 +177,10 @@ function moveAround(commandList) {
     }
     printTravelLog(rover);
   }
+}
+
+function clearTravelLog (rover) {
+  rover.travelLog = [];
 }
 
 function writeTravelLog(rover) {
