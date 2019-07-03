@@ -154,8 +154,9 @@ function moveBackward(rover){
   }
 }
 
-function moveAround(commandList) {
-  clearTravelLog(rover);
+function moveAround(commandList, roverId) {
+  resetRover(rover);
+  locateLastPosition(roverId);
   var isValid = isValidCommandList(commandList);
 
   if (isValid) {
@@ -175,12 +176,16 @@ function moveAround(commandList) {
           break;
       }
     }
+    mars[rover.xPos][rover.yPos] = roverId;
     printTravelLog(rover);
   }
 }
 
-function clearTravelLog (rover) {
+function resetRover(rover) {
   rover.travelLog = [];
+  rover.xPos = 0;
+  rover.yPos = 0;
+  rover.direction = 'N';
 }
 
 function writeTravelLog(rover) {
@@ -214,3 +219,23 @@ function hitObstacle(x,y){
     return true;
   }
 } 
+
+function locateLastPosition(id) {
+  for (var i = 0; i < mars.length; i++){
+    // A single row, such as mars[0], mars[1], mars[2]
+    var row = mars[i];
+    // Loop over each element in the row
+    // We use "j" because "i" is already being used.
+    // What would happen if we used i in this loop instead? Try it.
+    for (var j = 0; j < row.length; j++){
+      var column = row[j];
+      // If the column is a rover, log the coords
+      if (column === id){
+        console.log("Rover Found at: " + i + ", " + j);
+        rover.xPos = i;
+        rover.yPos = j;
+      }
+      // Instead of using variables, you could reference: mars[i][j]
+    }
+  }
+}
